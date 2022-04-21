@@ -8,25 +8,27 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
-songplay_table_create = ("""CREATE table if not exists songplays(songplay_id serial, start_time timestamp, user_id int, level varchar, song_id varchar, artist_id varchar, session_id int, location text, user_agent text)
+songplay_table_create = ("""CREATE TABLE IF NOT EXISTS songplays(songplay_id SERIAL PRIMARY KEY, start_time TIMESTAMP NOT NULL, user_id INT NOT NULL, level VARCHAR, song_id VARCHAR, artist_id VARCHAR, session_id INT, location TEXT, user_agent TEXT)
 """)
 
-user_table_create = ("""CREATE table if not exists users(user_id int PRIMARY KEY, first_name varchar, last_name varchar, gender varchar, level varchar)
+user_table_create = ("""CREATE TABLE IF NOT EXISTS users(user_id INT PRIMARY KEY, first_name VARCHAR, last_name VARCHAR, gender VARCHAR, level VARCHAR)
 """)
 
-song_table_create = ("""CREATE table if not exists songs(song_id varchar PRIMARY KEY, title varchar, artist_id varchar, year int, duration numeric)
+song_table_create = ("""CREATE TABLE IF NOT EXISTS songs(song_id VARCHAR PRIMARY KEY, title VARCHAR NOT NULL, artist_id VARCHAR, year INT, duration NUMERIC NOT NULL)
 """)
 
-artist_table_create = ("""CREATE table if not exists artists(artist_id varchar PRIMARY KEY, name varchar, location text, latitude numeric, longitude numeric)
+artist_table_create = ("""CREATE TABLE IF NOT EXISTS artists(artist_id VARCHAR PRIMARY KEY, name VARCHAR NOT NULL, location TEXT, latitude DOUBLE PRECISION, longitude DOUBLE PRECISION)
 """)
 
-time_table_create = ("""CREATE table if not exists time(start_time timestamp PRIMARY KEY, hour int, day int, week int, month int, year int, weekday int)
+time_table_create = ("""CREATE TABLE IF NOT EXISTS time(start_time timestamp PRIMARY KEY, hour INT, day INT, week INT, month INT, year INT, weekday INT)
 """)
 
 # INSERT RECORDS
 
 songplay_table_insert = ("""INSERT INTO songplays(start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
                              VALUES(%s, %s, %s, %s, %s, %s, %s, %s)
+                             ON CONFLICT(songplay_id)
+                             DO NOTHING
 """)
 
 user_table_insert = ("""INSERT INTO users(user_id, first_name, last_name, gender, level) 
