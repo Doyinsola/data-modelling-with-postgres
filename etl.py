@@ -6,6 +6,14 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    
+    """
+    Loads the song dataset into a Pandas DataFrame
+    The 'song_id','title','artist_id','year','duration' are extracted and inserted into the songs table 
+    The 'artist_id','artist_name','artist_location','artist_latitude','artist_longitude' are extracted and inserted into the artists table 
+
+    """
+    
     # open song file
     df = pd.read_json(filepath, typ = 'DataFrame')
 
@@ -19,11 +27,21 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    
+     """
+    Loads the log dataset into a Pandas DataFrame
+    The timestamp is transformed and inserted into the time table
+    The 'userId', 'firstName', 'lastName', 'gender', 'level' are extracted and inserted into the users table
+     Because the log file(s) do not specify an ID for either the song or the artist, got the song ID and artist ID by querying the songs and artists tables to find matches based on song title, artist name, and song duration time.
+
+    The timestamp, user ID, level, song ID, artist ID, session ID, location, and user agent are extracted and inserted into the songplay_data
+    """
+    
     # open log file
     df = pd.read_json(filepath, lines=True)
 
     # filter by NextSong action
-    df = pd.read_json(filepath, lines=True)
+    df = df[df['page']== 'NextSong']
 
     # convert timestamp column to datetime
     t = pd.to_datetime(df['ts'], unit='ms')
@@ -38,7 +56,7 @@ def process_log_file(cur, filepath):
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df = pd.DataFrame(df[['userId', 'firstName', 'lastName', 'gender', 'level']].values)
+    user_df = pd.DataFrame(df[['userId', 'firstName', 'lastName', 'gender', 'level']].values, columns = ['userId', 'firstName', 'lastName', 'gender', 'level']).drop_duplicates('userId')
 
     # insert user records
     for i, row in user_df.iterrows():
@@ -62,6 +80,12 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    
+    """
+    Imports all relevant files from the same dir.
+    Counts total number of files present and processed in a dir.
+    """
+    
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -81,6 +105,12 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    
+    """
+    Establishes connection to the database sparkifydb and gets cursor in it.
+    Closes the connection when processing is done.
+    """
+    
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
