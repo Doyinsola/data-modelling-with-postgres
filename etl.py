@@ -28,13 +28,14 @@ def process_song_file(cur, filepath):
 
 def process_log_file(cur, filepath):
     
-     """
+    """
     Loads the log dataset into a Pandas DataFrame
     The timestamp is transformed and inserted into the time table
     The 'userId', 'firstName', 'lastName', 'gender', 'level' are extracted and inserted into the users table
-     Because the log file(s) do not specify an ID for either the song or the artist, got the song ID and artist ID by querying the songs and artists tables to find matches based on song title, artist name, and song duration time.
+    Because the log file(s) do not specify an ID for either the song or the artist, got the song ID and artist ID by querying the songs and artists tables to find matches based on song title, artist name, and song duration time.
 
     The timestamp, user ID, level, song ID, artist ID, session ID, location, and user agent are extracted and inserted into the songplay_data
+
     """
     
     # open log file
@@ -80,7 +81,6 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
-    
     """
     Imports all relevant files from the same dir.
     Counts total number of files present and processed in a dir.
