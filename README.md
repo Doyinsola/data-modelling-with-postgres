@@ -51,4 +51,4 @@ Using the song and log datasets to create a star schema optimized for queries on
    * First make sure the kernel in etl.ipynb aren't running to end the connection to the database
    * then execute ```python or python3  create_tables.py``` in terminal
    * then execute ```python or python3  etl.py``` in terminal
-* To test the data inserted into the database run the individual cells in the etl.ipynb notebook, either after running etl.ipynb or etl.py
+* To test the data inserted into the database run the individual cells in the test.ipynb notebook, either after running etl.ipynb or etl.py
