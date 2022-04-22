@@ -20,27 +20,27 @@ Using the song and log datasets to create a star schema optimized for queries on
 
 #### Fact Table
 
-    * songplays - records in log data associated with song plays i.e. records with page ```NextSong```
-        * Table columns: songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
+ * songplays - records in log data associated with song plays i.e. records with page ```NextSong```
+     * Table columns: songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent
 
 #### Dimension Tables
 
-    * users - users in the app
-        * Table columns: user_id, first_name, last_name, gender, level
-    * songs - songs in music database
-        * Table columns: song_id, title, artist_id, year, duration
-    * artists - artists in music database
-        * Table columns: artist_id, name, location, latitude, longitude
-    * time - timestamps of records in songplays broken down into specific units
-        * Table columns: start_time, hour, day, week, month, year, weekday
+ * users - users in the app
+     * Table columns: user_id, first_name, last_name, gender, level
+ * songs - songs in music database
+     * Table columns: song_id, title, artist_id, year, duration
+ * artists - artists in music database
+     * Table columns: artist_id, name, location, latitude, longitude
+ * time - timestamps of records in songplays broken down into specific units
+     * Table columns: start_time, hour, day, week, month, year, weekday
 
 ### Files in the Repository
 
-    * test.ipynb: displays the first few rows of each table to verify the data is inserted into the database. Also has sanity checks for constraints such as primary key, not null and data types of the tables created
-    * create_tables.py: drops and creates the schema tables. Run this file to reset the tables before each time the ETL scripts are run.
-    * etl.ipynb: reads and processes a single file from song_data and log_data and loads the data into the tables. This notebook contains detailed instructions on the ETL process for each of the tables.
-    * etl.py: reads and processes files from song_data and log_data and loads them into the tables.
-    * sql_queries.py contains all sql queries for creating the schema, and is imported into the last three files above.
+ * test.ipynb: displays the first few rows of each table to verify the data is inserted into the database. Also has sanity checks for constraints such as primary key, not null and data types of the tables created
+ * create_tables.py: drops and creates the schema tables. Run this file to reset the tables before each time the ETL scripts are run.
+ * etl.ipynb: reads and processes a single file from song_data and log_data and loads the data into the tables. This notebook contains detailed instructions on the ETL process for each of the tables.
+ * etl.py: reads and processes files from song_data and log_data and loads them into the tables.
+ * sql_queries.py contains all sql queries for creating the schema, and is imported into the last three files above.
 
 ### How to run the Scripts
 
@@ -48,7 +48,7 @@ Using the song and log datasets to create a star schema optimized for queries on
 * This imports the sql_queries.py script holding all the queries for creating and inserting records into the database. 
 * To see how each function works, run the individual cells in the etl.ipynb notebook
 * Otherwise run the etl.py script to load all the data into the database by: 
-        * First make sure the kernel in etl.ipynb aren't running to end the connection to the database
-        * then execute ```python or python3  create_tables.py``` in terminal
-        * then execute ```python or python3  etl.py``` in terminal
+   * First make sure the kernel in etl.ipynb aren't running to end the connection to the database
+   * then execute ```python or python3  create_tables.py``` in terminal
+   * then execute ```python or python3  etl.py``` in terminal
 * To test the data inserted into the database run the individual cells in the etl.ipynb notebook, either after running etl.ipynb or etl.py
